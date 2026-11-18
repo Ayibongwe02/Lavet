@@ -1,0 +1,20 @@
+services:
+  web:
+    build: .
+    image: lavet-wellness:latest
+    container_name: lavet-wellness
+    ports:
+      - "8080:8080"        # change the left side to use another host port
+    environment:
+      PORT: "8080"
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:8080/healthz || exit 1"]
+      interval: 30s
+      timeout: 3s
+      retries: 3

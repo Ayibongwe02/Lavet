@@ -1,0 +1,37 @@
+# Render Blueprint: deploys Lavet Wellness as a free, CDN-backed Static Site.
+# Dashboard: New + > Blueprint > pick your repo. Render reads this file.
+services:
+  - type: web
+    name: lavet-wellness
+    runtime: static
+    plan: free
+    # Copy only the site files into dist/ so Dockerfile, nginx/ etc. are never published
+    buildCommand: mkdir -p dist && cp *.html dist/ && cp -r css js images dist/
+    staticPublishPath: ./dist
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: X-Frame-Options
+        value: SAMEORIGIN
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      - path: /images/*
+        name: Cache-Control
+        value: public, max-age=2592000
+      - path: /*.html
+        name: Cache-Control
+        value: no-cache
+
+# --- Prefer Docker on Render instead? Replace the service above with this: ---
+# services:
+#   - type: web
+#     name: lavet-wellness
+#     runtime: docker
+#     plan: starter          # Docker web services are not on the free plan
+#     healthCheckPath: /healthz
+#     envVars:
+#       - key: PORT
+#         value: "10000"     # Render's default port; nginx reads it automatically
