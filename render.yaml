@@ -1,8 +1,0 @@
-services:
-  - type: web
-    name: lavet-wellness
-    runtime: docker
-    plan: free
-    dockerfilePath: ./Dockerfile
-    healthCheckPath: /healthz
-    autoDeploy: true
