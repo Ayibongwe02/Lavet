@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lavet Wellness</title>
+<style>
+:root{--bg:#f4f0ea;--card:#fff;--ink:#2b2f2a;--mute:#6d746b;--accent:#5f7a61;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#1c201c;--card:#262b26;--ink:#eee9e0;--mute:#a3aa9f;--accent:#9db89f;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Georgia,"Times New Roman",serif}
+header{padding:48px 20px 20px;text-align:center}
+h1{margin:0;font-weight:400;letter-spacing:.08em}
+header p{color:var(--mute);margin:8px 0 0}
+nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:12px 20px}
+nav button{font:inherit;border:1px solid var(--accent);background:none;color:var(--ink);padding:6px 16px;border-radius:99px;cursor:pointer}
+nav button.on{background:var(--accent);color:#fff}
+main{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:20px;max-width:1100px;margin:0 auto;padding:20px}
+article{background:var(--card);border-radius:14px;overflow:hidden}
+article img{width:100%;display:block;aspect-ratio:1;object-fit:cover}
+article div{padding:12px 14px 16px}
+article small{color:var(--mute)}
+article h2{font-size:1rem;margin:4px 0;font-weight:400}
+article b{color:var(--accent)}
+footer{text-align:center;color:var(--mute);padding:30px;font-size:.85rem}
+</style>
+</head>
+<body>
+<header><h1>LAVET WELLNESS</h1><p>Natural supplements, skincare &amp; rituals</p></header>
+<nav id="nav"></nav>
+<main id="grid"></main>
+<footer>Prototype · prices in ZAR</footer>
+<script>
+const PRODUCTS=[
+["Ashwagandha Calm Complex","Supplements",289,"bottle","ashwagandha-calm"],
+["Collagen Renew Peptides","Supplements",349,"jar","collagen-renew"],
+["Vitamin D3 + K2 Daily","Supplements",199,"bottle","vitamin-d3-k2"],
+["Magnesium Glycinate Night","Supplements",249,"bottle","magnesium-glycinate"],
+["Omega-3 Pure Focus","Supplements",279,"bottle","omega-3-pure"],
+["Green Glow Vitamin C Serum","Skincare",320,"bottle","green-glow-serum"],
+["Hydra Barrier Repair Cream","Skincare",265,"jar","hydra-barrier-cream"],
+["Calming Night Facial Oil","Skincare",295,"bottle","calming-night-oil"],
+["Matcha Morning Ritual Tea","Teas & Tonics",185,"tin","matcha-morning-tea"],
+["Sleep Deep Herbal Blend","Teas & Tonics",145,"pouch","sleep-deep-blend"],
+["Daily Immunity Shot Tonic","Teas & Tonics",210,"bottle","immunity-shot-tonic"],
+["Lavender Calm Essential Oil","Aromatherapy",165,"bottle","lavender-calm-oil"],
+["Focus Citrus Diffuser Blend","Aromatherapy",175,"bottle","focus-citrus-blend"],
+["Deep Restore Body Butter","Body Care",230,"jar","deep-restore-body-butter"],
+["Mineral Recovery Bath Soak","Body Care",155,"jar","mineral-bath-soak"],
+["Plant Protein Daily Boost","Supplements",399,"tub","protein-plant-boost"],
+["Gut Balance Probiotic","Supplements",275,"bottle","gut-balance-probiotic"],
+["Radiance Clay Face Mask","Skincare",185,"jar","radiance-face-mask"]
+].map(([name,cat,price,unit,img])=>({name,cat,price,unit,img}));
+const cats=["All",...new Set(PRODUCTS.map(p=>p.cat))];
+const nav=document.getElementById("nav"),grid=document.getElementById("grid");
+function show(c){
+  [...nav.children].forEach(b=>b.classList.toggle("on",b.textContent===c));
+  grid.innerHTML=PRODUCTS.filter(p=>c==="All"||p.cat===c).map(p=>
+   `<article><img loading="lazy" src="images/products/${p.img}.jpg" alt="${p.name}"><div><small>${p.cat} · ${p.unit}</small><h2>${p.name}</h2><b>R${p.price}</b></div></article>`).join("");
+}
+cats.forEach(c=>{const b=document.createElement("button");b.textContent=c;b.onclick=()=>show(c);nav.append(b)});
+show("All");
+</script>
+</body>
+</html>
