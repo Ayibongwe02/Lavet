@@ -1,0 +1,12 @@
+.git
+.gitignore
+.github
+node_modules
+README.md
+DEPLOY.md
+render.yaml
+docker-compose.yml
+Dockerfile
+.dockerignore
+*.zip
+.DS_Store
